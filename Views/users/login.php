@@ -1,36 +1,12 @@
 <?php
 
 if(isset($_POST["username"])){
-    include_once('Config/database.php');
-    try{
-        $db = DBConnection();
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-        //$hashed_password = password_hash($password, PASSWORD_BCRYPT);
+    include_once("Controllers/users.php");
 
-        $query = "SELECT password FROM users 
-                  WHERE username = :username"; // SQL statement
-        $statement = $db->prepare($query); // encapsulate the sql statement
-        $statement->bindValue(':username', $username);
-        //$statement->bindValue(':password', $hashed_password);
-        $statement->execute(); // run on the db server
-        $hashed_password = $statement->fetch();
-        if(password_verify($password, $hashed_password["password"])) {
-            $statement->closeCursor(); // close the connection
-            session_start();
-            $_SESSION["is_logged_in"] = true;
-            // if everything good go to index page
-            header('Location: index.php');
-        }
-        else {
-            $statement->closeCursor(); // close the connection
-            $messages = "Invalid Username or Password";
-        }
-    }
-    catch(Exception $e) {
-        $messages = $e->getMessage();
-    }
+    $messages = Login($username, $password);
 }
 else {
     $messages = "";

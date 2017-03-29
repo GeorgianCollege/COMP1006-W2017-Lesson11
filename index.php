@@ -16,15 +16,17 @@ else {
             break;
         case "Login":
             $title = "Login";
-            $templateString = 'Users/login.php';
+            $templateString = 'Views/users/login.php';
             break;
         case "Logout":
-            $title = "Logout";
-            $templateString = 'Users/logout.php';
+            include_once("Controllers/users.php");
+            Logout();
+            $title = "Home";
+            $templateString = 'Views/dashboard.php';
             break;
         case "Register":
             $title = "Register";
-            $templateString = 'Users/register.php';
+            $templateString = 'Views/users/register.php';
             break;
         case "GamesList":
             $title = "Games";

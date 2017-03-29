@@ -22,6 +22,7 @@
                 <li class=<?php echo ($title == "Home") ? "active" : "" ?>><a href="index.php"><i class="fa fa-home fa-lg"></i> Home</a></li>
 
                 <?php if(isset($_SESSION["is_logged_in"])) : ?>
+                    <li><p class="navbar-text">Welcome, <?php echo $_SESSION["displayName"]; ?></p></li>
                     <li><a href=index.php?pageId=Logout><i class="fa fa-sign-out fa-lg" ></i> Logout</a></li>
                 <?php else: ?>
                     <li class=<?php echo ($title == "Login") ? "active" : "" ?>><a href="index.php?pageId=Login"><i class="fa fa-sign-in fa-lg" ></i> Login</a></li>

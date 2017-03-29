@@ -1,5 +1,7 @@
 <?php
-include_once('Users/is_authenticated.php');
+
+include_once('Controllers/users.php');
+CheckIfAuthenticated();
 
 require_once('Controllers/games.php');
 

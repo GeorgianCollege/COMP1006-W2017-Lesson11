@@ -1,56 +1,16 @@
 <?php
 
 $messages = "";
-$isUserNameUnique = false;
 
 include_once('Models/User.php');
 
 if(isset($_POST["username"])){
-    include_once('Config/database.php');
-
     $username = $_POST["username"];
-    // TODO: check for unique username
-    try {
-        $db = DBConnection();
-        $query = "SELECT * FROM users 
-                  WHERE username = :username";
-        $statement = $db->prepare($query); // encapsulate the sql statement
-        $statement->bindValue(':username', $username);
-        $statement->execute(); // run on the db server
-        if($statement->rowCount() == 1) { // we have a match
-            $messages="Invalid Username";
-        }
-        else {
-            $isUserNameUnique = true;
-        }
-        $statement->closeCursor(); // close the connection
-    }
-    catch(Exception $e) {
-        $messages = $e->getMessage();
-    }
+    $password = $_POST["password"];
 
-    if($isUserNameUnique) {
-        try {
-            $db = DBConnection();
-            $password = $_POST["password"];
+    include_once("Controllers/users.php");
 
-            $hashed_password = password_hash($password, PASSWORD_BCRYPT);
-            $displayName = $_POST["displayName"];
-
-            $query = "INSERT INTO users (username, password, displayName) VALUES (:username, :password, :displayName)";
-            $statement = $db->prepare($query);
-            $statement->bindValue(':username', $username);
-            $statement->bindValue(':password', $hashed_password);
-            $statement->bindValue(':displayName', $displayName);
-            $statement->execute();
-            $statement->closeCursor();
-
-            // if everything good go to index page
-            header('Location: index.php');
-        } catch (Exception $e) {
-            $messages = $e->getMessage();
-        }
-    }
+    $messages = Register($username, $password);
 }
 else {
     $messages = "";

@@ -1,6 +1,7 @@
 <?php
-include_once('Users/is_authenticated.php');
-//include_once('../Config/database.php'); // include the database connection file
+include_once('Controllers/users.php');
+CheckIfAuthenticated();
+
 include_once('Controllers/games.php');
 
 $gameID = $_GET["gameID"]; // assigns the gameID from the URL

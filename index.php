@@ -60,6 +60,6 @@ else {
 
 <?php include_once ('Views/partials/navbar.php'); ?>
 
-<?php require($templateString); ?>
+<?php require($templateString); ?> <!-- Content -->
 
 <?php include_once ('Views/partials/footer.php');

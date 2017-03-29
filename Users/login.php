@@ -6,13 +6,17 @@ if(isset($_POST["username"])){
         $db = DBConnection();
         $username = $_POST["username"];
         $password = $_POST["password"];
-        $query = "SELECT id FROM users 
-                  WHERE username = :username AND password = :password"; // SQL statement
+
+        //$hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+        $query = "SELECT password FROM users 
+                  WHERE username = :username"; // SQL statement
         $statement = $db->prepare($query); // encapsulate the sql statement
         $statement->bindValue(':username', $username);
-        $statement->bindValue(':password', $password);
+        //$statement->bindValue(':password', $hashed_password);
         $statement->execute(); // run on the db server
-        if($statement->rowCount() == 1) {
+        $hashed_password = $statement->fetch();
+        if(password_verify($password, $hashed_password["password"])) {
             $statement->closeCursor(); // close the connection
             session_start();
             $_SESSION["is_logged_in"] = true;
